@@ -42,3 +42,16 @@ chan = l.get_channels(); %channel generation
 %to be continued...
 
 %% OFDM signal generation
+% We emulate a LTE Cat.16 OFDM DL transmission with the following parameters
+
+M = 64; %64-QAM
+k = log2(M); %bits per symbol
+n_subc = 2048; %subcarriers
+cp_len = n_subc*0.25; %with long cyclic prefix in LTE, the length is 25% of the total symbol rate (??? da verificare)
+
+tx_bits = randi([0,1],1000);
+mod_qam = qammod(tx_bits, M, 'gray');
+%add encoding in the future? ask reggiani
+ofdmMod = comm.OFDMModulator('FFTLength',n_subc,'CyclicPrefixLength',cp_len); %ofdm modulator object
+
+
