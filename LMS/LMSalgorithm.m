@@ -7,7 +7,7 @@ function [wNew] = LMSalgorithm(chOut,r, wOld)
 %output
 %   -wNew: the updated array of weights
 
-Y = transpose(chOut) * conj(chOut);
+Y = chOut * transpose(conj(chOut));
 R = corr(Y); % autocorrelation matrix of the rx signal at each array element
 z = corr(chOut, transpose(r)); %correlation between the rx signals and the reference one 
 

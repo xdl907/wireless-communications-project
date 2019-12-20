@@ -129,10 +129,10 @@ while(1)
     chOuts = awgn(receivedW, Pars.SNR, 'measured'); %% segnale in entrata stimato alla BS
     receivedWs1 = collectPlaneWave(Geometry.BSarray, [(sinusoid_waveform_t1*sqrt(path_loss_t1))'], [t1Angles' t2Angles'], Pars.fc);
     Pars.SNR = 20;
-    chOuts1 = awgn(receivedW, Pars.SNR, 'measured'); %% segnale in entrata stimato alla BS su t1 da usarsi nell'analisi delle interferenze
+    chOuts1 = awgn(receivedW, Pars.SNR, 'measured'); %% segnale in entrata stimato alla BS su
     receivedWs2 = collectPlaneWave(Geometry.BSarray, [(sinusoid_waveform_t2*sqrt(path_loss_t2))'], [t1Angles' t2Angles'], Pars.fc);
     Pars.SNR = 20;
-    chOuts2 = awgn(receivedW, Pars.SNR, 'measured'); %% segnale in entrata stimato alla BS su t2 da usarsi nell'analisi delle interferenze
+    chOuts2 = awgn(receivedW, Pars.SNR, 'measured'); %% segnale in entrata stimato alla BS
     
 %     % beamforming V1s
 %     beamformerV1s = phased.PhaseShiftBeamformer('SensorArray',Geometry.BSarray,...
