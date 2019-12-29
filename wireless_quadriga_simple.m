@@ -61,5 +61,7 @@ ofdmMod = comm.OFDMModulator('FFTLength', 64, ...
     'PilotInputPort', true, ...
     'PilotCarrierIndices', [12;26;40;54]);
 showResourceMapping(ofdmMod);
+ofdmDemod = comm.OFDMDemodulator(ofdmMod);
+[dataOut,pilotOut] = step(ofdmDemod,waveStruct.waveform);
 
 
