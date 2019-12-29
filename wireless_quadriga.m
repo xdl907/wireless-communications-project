@@ -42,25 +42,29 @@ chan = l.get_channels(); %channel generation
 
 %to be continued...
 
-%% OFDM signal generation (LTE-A)
+%% Generate Uplink RMC Waveform
+% Uplink RMC configuration:
+cfg = struct('RC', 'A5-7', ...
+    'NULRB', 100, ...
+    'DuplexMode', 'FDD', ...
+    'NCellID', 0, ...
+    'RNTI', 1, ...
+    'TotSubframes', 10, ...
+    'Windowing', 0);
+cfg.PUSCH.RVSeq = [0 2 3 1];
+antennaPort = 1;
+cfg = lteRMCUL(cfg);
+% input bit source:
+in = [1; 0; 0; 1];
+% waveform generation:
+[waveform, grid, cfg] = lteRMCULTool(cfg, in);
+Fs = cfg.SamplingRate; % sample rate of waveform
 
-%QAM signal generation
-M = 64; %modulation order
-k = log2(M); %bits per symbol
-tx_symbols = randi([0 M-1],2000,1);
-refc = qammod(0:M-1,M);
-mod_qam = qammod(tx_symbols, M, 'gray');
-%add encoding in the future? ask reggiani
-constdiag = comm.ConstellationDiagram('ReferenceConstellation',refc, ...
-    'XLimits',[-9 9],'YLimits',[-9 9]);
-constdiag(mod_qam);
-rcv = awgn(mod_qam,10); %AWGN channel for testing
-constdiag(rcv);
-
-%OFDM parameters
-n_subc = 2048; %subcarriers
-cp_len = n_subc*0.25; %with long cyclic prefix in LTE, the length is 25% of the total symbol rate (??? da verificare)
-
+%% Visualize Uplink RMC Waveform
+% Spectrum Analyzer
+spectrum = dsp.SpectrumAnalyzer('SampleRate', Fs);
+spectrum(waveform);
+release(spectrum);
 
 
 
