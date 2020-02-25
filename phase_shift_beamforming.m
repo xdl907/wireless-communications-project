@@ -114,12 +114,16 @@ while(1)
     figure(2)
     pattern(Geometry.BSarray,Pars.fc,[-180:180],el_t1,'PropagationSpeed',Pars.c,'Type',...
     'powerdb','CoordinateSystem','polar','Weights',w1)
+
       
     hold on 
     
     pattern(Geometry.BSarray,Pars.fc,[-180:180],el_t2,'PropagationSpeed',Pars.c,'Type',...
     'powerdb','CoordinateSystem','polar','Weights',w2)
     hold off
+    
+    p = polarpattern('gco');
+    p.LegendLabels = {'terminal 1','terminal 2'};
 
 
     %% stima del corretto segnale (senza interferers)
@@ -156,15 +160,10 @@ while(1)
     pattern(Geometry.BSarray,Pars.fc,[-180:180],el_t2,'PropagationSpeed',Pars.c,'Type',...
     'powerdb','CoordinateSystem','polar','Weights',w2s)
     hold off;
-    %% algoritmo LMS 
-    % !!WARNING!! operatore ' fa la trasposta del complesso coniugato!!!!
     
-   % w=LMSalgorithm(chOut,sinusoid_waveform_t1,wStart)
-    
-    
-    %% fine ciclo while
-    % fin qui abbiamo dei volt, NON delle potenze. quindi dobbiamo ottenere
-    % le potenze di segnale
-    
+    p = polarpattern('gco');
+    p.LegendLabels = {'terminal 1','terminal 2'};
+   
+    %% end while
     pause(1);
 end
