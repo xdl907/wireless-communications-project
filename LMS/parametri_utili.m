@@ -12,8 +12,8 @@ function [BERr, BERm,SNRdifferences] = parametri_utili(referenceSignalWithoutNoi
     
     BERr = biterr(referenceSignal, referenceSignalWithoutNoise);
     BERm = biterr(measuredSignal, referenceSignalWithoutNoise);
-    SNRWithoutInterference = snr(referenceSignalWithoutNoise, referenceSignal);
-    SNRWithInterference = snr(referenceSignalWithoutNoise, referenceSignal);
-    SNRdifferences = SNRWithoutInterference - SNRWithInterference;
+    SNRWithoutInterference = snr(referenceSignalWithoutNoise, referenceSignal); %?????????
+    SNRWithInterference = snr(referenceSignalWithoutNoise, referenceSignal); %?????????
+    SNRdifferences = SNRWithoutInterference - SNRWithInterference; %?????????
 end
 
