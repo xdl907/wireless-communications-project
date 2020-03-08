@@ -14,21 +14,10 @@ Pars.lambda = Pars.c/Pars.fc;
 Pars.SNR = 20;
 numArrayElements=4;
 
-Fsin = 600;
-Fsin2 = 500;
-Fsin3 = 750;
-Ts = 1e-5;
-Fsample = 1 / Ts;
-TsVect_t1 = 0:Ts:5/Fsin;
-TsVect_t2 = 0:Ts:5/Fsin;
-TsVect_i = 0:Ts:5/Fsin;
-
-%tx signals
-sinusoid_waveform=sin(2*pi*Fsin3*TsVect_i);
-sinusoid_waveform(2,:)=sin(2*pi*Fsin3*TsVect_i);
-sinusoid_waveform(3,:) = sin(2*pi*Fsin*TsVect_t1);
-sinusoid_waveform(4,:)=sin(2*pi*Fsin2*TsVect_t2);
-waveform_LEN=size(sinusoid_waveform(1,:));
+%OFDM tx signals
+[waveform,ofdmMod,fs]=OFDMsignal;
+waveform_LEN=size(waveform);
+Ts=1/fs;
 
 % MIMO array
 g.BSarray = phased.URA('Size', [numArrayElements numArrayElements], 'ElementSpacing', [Pars.lambda/2 Pars.lambda/2], 'ArrayNormal', 'x');
@@ -82,7 +71,7 @@ for channel=1:1:4
         for path=1:1:chTaps(3)
 
             inX=TsVect-chan(channel).delay(antenna,1,path,1);
-            inY=interp1(TsVect,sinusoid_waveform(channel,:),inX,'pship');
+            inY=interp1(TsVect,waveform(channel,:),inX,'pship');
             chOut(antenna,:,channel)=inY*chan(channel).coeff(antenna,1,path,1)+chOut(antenna,:,channel);
 
         end
@@ -92,16 +81,15 @@ end
 chOut(:,:,1)=chOut(:,:,1)+chOut(:,:,2)+chOut(:,:,3)+chOut(:,:,4);
 chOut(:,:,2:4)=[];
 
-figure
-hold on
-plot(sinusoid_waveform(3,:))
-for i=1:3
-    chOut(i,:)=chOut(i,:)/max((chOut(i,:)));%normalize values
-    plot (real(chOut(i,:))) 
-end
-legend ('tx sinusoid', 'rx signal antenna element 1', 'rx signal antenna element 2', 'rx signal antenna element 3');
-hold off
+% Spectrum Analyzer
+ spectrum = dsp.SpectrumAnalyzer('SampleRate', fs);
+ spectrum(waveform);
+ spectrum.ShowLegend=true;
+ release(spectrum);
+% OFDM Subcarrier Mapping
+showResourceMapping(ofdmMod);
 
+%add noise
 chOut = awgn(chOut, Pars.SNR, 'measured');
 
 pause(2)
