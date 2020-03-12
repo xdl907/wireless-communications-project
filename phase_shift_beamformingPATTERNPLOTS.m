@@ -42,7 +42,7 @@ while(1)
     i2 = i2+[-5+10*rand(2,1);0];
     %plot procedure
     v=[t1,t2,i1,i2];
-    figure(1)
+    figure(2)
     plot3(bs(1),bs(2),bs(3),'vr','MarkerSize',9,'LineWidth',1.5,'Color',[0.6350 0.0780 0.1840]);
     hold on;
     plot3(v(1,(1:2)),v(2,(1:2)),v(3,(1:2)),'ob','LineWidth',1.5); %tracked terminals
@@ -79,10 +79,6 @@ while(1)
     i2_dist_BS=sqrt(bs(3)^2+i2_dist^2);
     
 
-   
-    
-    
-    
     % calcolo del pathloss
     path_loss_t1 = ((4*pi*t1_dist_BS)/Pars.lambda)^2;
     path_loss_t2 = ((4*pi*t2_dist_BS)/Pars.lambda)^2;
@@ -114,13 +110,14 @@ while(1)
     'Direction',t2Angles','WeightsOutputPort',true);
     [y2,w2] = beamformerV2(chOut);
     
-    figure
-    polarplot( deg2rad(az_t1),t1_dist_BS/max(t1_dist_BS,t2_dist_BS), 'or','LineWidth',1.5)
+    figure(1);
+    polarplot( -deg2rad(az_t1),t1_dist_BS/max(t1_dist_BS,t2_dist_BS), 'or','LineWidth',1.5)
     hold on
-    polarplot( deg2rad(az_t2),t2_dist_BS/max(t1_dist_BS,t2_dist_BS),'ob','LineWidth',1.5)
+    polarplot( -deg2rad(az_t2),t2_dist_BS/max(t1_dist_BS,t2_dist_BS),'ob','LineWidth',1.5)
+    hold on
 
     H=pattern(Geometry.BSarray,Pars.fc,[-180:180],el_t1,'PropagationSpeed',Pars.c,'Type',...
-    'efield','CoordinateSystem','polar','Weights',w1);
+    'power','CoordinateSystem','polar','Weights',w1);
     hold on 
     polarplot(H,'r')
     
