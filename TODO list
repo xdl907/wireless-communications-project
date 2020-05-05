@@ -1,3 +1,4 @@
-1) eseguire 2 volte il BF con i pesi;
-2) modificare i pesi usando 2 steering vector: ossia, per ogni SV si esegue il 
-calcolo dei pesi e poi si combinano
+1) fare un beamforming utilizzando la DOA calcolata tramite il music estimator. il calcolo dei pesi deve essere fatto con un metodo tipo conventional/null steering
+2) fare con il beamforming-doa con OFDM+quadriga
+3) fare il beamforming con il LMS
+4)
