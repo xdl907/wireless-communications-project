@@ -1,0 +1,34 @@
+-dato un campione del segnale trasmesso, calcolo l'errore e dato dalla differenza tra questo e il corrispondente campione ricevuto.
+il campione del segnale ricevuto è dato dalla somma pesata tra i tutti i campioni del segnale ricevuto dalle singole antenne che compongono l' URA. 
+i weight utilizzati sono quelli calcolati allo step k-1
+-lo step size mu è molto minore di 2/max(eig(R*R')) con R vettore dei campioni ricevuti dall'URA in un dato istante
+-aggiorno i pesi aggiungendo la correzione che è direttamente collegata all'errore e
+
+l'algoritmo prosegue aggiornando i pesi per tutta la durata della trasmissione, ovvero finche tutti i campioni di segnale non sono terminati
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
