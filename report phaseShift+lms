@@ -1,0 +1,45 @@
+-setup iniziale con inizializzazione ambiente (sistema dinamico con 2 ue e 2 intef che si muovono randomicamente sul piano xy) e antenna array
+-generazione dei 3 segnali ofdm qam: 2 diversi per i 2 ue e un unico segnale tx uguale da tutte le interf
+-calcolo angoli + pathloss
+-calcolo della forma d'onda ricevuta con collectplanewave a partire dai segnali ofdm e angoli (azimuth e elevazione) bs terminale
+
+-------------------- BF con DoA e funzione phaseShift------------------------------
+-inizializzo 2 BF (uno per ue) di tipo phaseShift fornendo in input i parametri dell'antenna e dell'angolo del segnale
+-passo ai 2 BF il segnale in output dal canale (quindi segnale degli ue + interf) che restituiscono i pesi e il segnale dopo il prodotto con i pesi
+-demodulo il segnale ofdm e ottenendo i simboli che poi trasformo di nuovo in bit
+-calcolo della ber
+-plot del beam risultante con pesi appena calcolati nel diagramma polare
+  
+
+-------------------- BF con DoA e funzione phaseShift------------------------------
+-calcolo dei pesi con l'algoritmo di lms a partire dall'output del canale e del segnale tx dai 2 ue
+-moltiplico il segnale rx con i pesi calcolati e ottengo il segnale ripulito 
+-demodulo il segnale ofdm e ottenendo i simboli che poi trasformo di nuovo in bit
+-calcolo della ber
+-plot del beam risultante con pesi appena calcolati nel diagramma polare
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
