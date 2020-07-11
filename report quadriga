@@ -1,0 +1,34 @@
+-generazione randomica delle posizioni iniziali e dei segnali ofdm trasmessi dagli interf e dagli UE 
+-creazione dell'ura
+-istanzio il quadriga ch con i parametri dell'ambiente (# tx e rx, posizione e caratteristiche della bs, definizione del tipo di environment nel quale avverra la comunicazione)
+-all'interno di un ciclo while, ad ogni iterazione aggiorno la posizione dei terminali, calcolo il canale e conseguentemente aggiorno i pesi per il BF, cosi che i beam si sintonizzino sulla nuova posizione
+    --definisco il movimento che farà il terminale all'interno di quella iterazione (track), in particolare ogni tx si muoverà di una certe distanza randomica in una direzione (angolo) scelta casualmente 
+    --genero i Channel Coefficients e i Channel Delays associati a quel track
+    --aggiorno le posizioni (la posizione finale della track attuale diventa la posizione iniziale per la track dell'iterazione successiva)
+    --per ottenere ciascuno dei 4 canali (1 canale per ogni coppia bs-terminale) nei punti della track devo fare l'interpolazione tra i delay taps e il segnale trasmesso e moltiplicare per i coeff
+    --dopo aver ottenuto i 4 canali, li sommo tutti in uno unico (cosi da avere un canale con MP+interferenza)
+    --aggiunta rumore bianco
+    --algoritmo di lms per ottenere i pesi calcolato a partire dal canale totale
+    --moltiplicazione chOut con i pesi 
+    --calcolo della ber
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
