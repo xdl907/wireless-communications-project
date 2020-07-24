@@ -1,0 +1,84 @@
+\documentclass[a4paper,10pt]{article}
+\usepackage[margin=3cm]{geometry}
+\usepackage{amsmath}
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+
+%opening
+\pagestyle{fancy}{
+\fancyhf{}
+\fancyhead[L]{\textit{}}
+\fancyhead[R]{\textsc{\nouppercase{\leftmark}}}
+\cfoot{\thepage}
+}
+\title{}
+\author{}
+\setcounter{tocdepth}{2}
+
+\begin{document}
+
+\maketitle
+\title{Direction-of-Arrival estimation.}
+%\thispagestyle{empty}
+\begin{Direction-of-Arrival estimation.}
+    
+\end{Direction-of-Arrival estimation.}
+%\tableofcontents
+Direction-of-arrival, abbreviated DoA, is a category of techniques used to estimate the position of some targets in a localization, or more generally, in a Telecommunication system: what can be done with these tecniques is obtain a position in a 2D or 3D space. Among the techniques that are available in this category, in our project we choose the estimator of the position of the targets that uses the MUSIC algorithm; this algorithm gives the estimation of AoA (Angle of Arrival) of the signal coming from the target. The simulation files are located in the directory of our repository “DOA-OFDM”; the most important are:
+\begin{itemize}
+    \item “UPDATEphsDoALMSCompareWithKnownMovement.m”;
+    \item “UPDATEphsDoALMSWithKnowNumberOfInterferences.m”.
+\end{itemize}
+
+The scenario proposed in these files is the same:
+\begin{itemize}
+    \item the channel is modulated with an OFDM modulation scheme;
+    \item the modulation order is “8”;
+    \item the FFT length is “64”;
+    \item the symbol number is “1000”;
+    \item the SNR is “15 dB”;
+    \item the antennas array type is “Uniform Rectangular Array” type (URA);
+    \item a number of array elements equal to “16” (4 in row and 4 in columns).
+\end{itemize}
+
+Physically the scenario expects a space that can be represented as positive y-axis in a Cartesian 3D reference system, with the base station located in (0, 0, 50) and 2 targets moving on the plane with z-coordinate equal to 0. In to the two cases, the core of DoA estimator is the function “phased.MUSICEstimator2D”, that returns the estimation on a plane wave that represent the signal sent by the targets, eventually with the interferences, in the same time, with an additive white Gaussian noise, characterized by the SNR previously defined: the function appears as:
+\begin{verbatim}
+    estimator = phased.MUSICEstimator2D('SensorArray', paramURA,...
+    ...'OperatingFrequency', paramFrequency, 'ForwardBackwardAveraging',true,...
+...'NumSignalsSource', 'Property', 'DOAOutputPort', true, 'NumSignals',...
+...paramNumberOfSignals, 'AzimuthScanAngles', paramStartingAngle :...
+...paramStepOfScanning : paramEndAngle, 'ElevationScanAngles', paramStartingAngle :...
+...paramStepOfScanning : paramEndAngle);
+\end{verbatim}
+
+
+where the pair option/values are:
+\begin{itemize}
+    \item 'SensorArray', paramURA: that describe the array of antennas that is used (in our files GeometryBSArray);
+    \item'OperatingFrequency', paramFrequency: that indicate the operating frequency of the system (in our files Pars.fc);
+    \item 'ForwardBackwardAveraging', true: that is an option need to be true to make the estimation of covariance matrix;
+    \item ‘DOAOutputPort', true: that is an option that need to be set to true to make possible the estimation of DoA’s angles;
+    \item 'NumSignals', paramNumberOfSignals: that indicate the number of signals to be estimated;
+    \item 'AzimuthScanAngles', paramStartingAngle : paramStepOfScanning : paramEndAngle: that indicate the scanning angles of Azimuth, giving:
+    \begin{enumerate}
+        \item paramStartingAngle: the start angle, in our case 90°
+        \item paramStepOfScanning: the step angle, in our case 0,5°
+        \item paramEndAngle: the end angle, in our case -90°
+    \end{enumerate}
+    \item 'ElevationScanAngles', -paramStartingAngle : paramStepOfScanning : paramEndAngle: that indicate the scanning angles of Elevation, using the same format of Azimuth.
+\end{itemize}
+
+The difference between the two files, is that in the former case, we operate in absence of interferences and with known movements of the targets in the space, while in the latter case we give to the scenario two targets with random movements and a known number of interferences.
+These differences, can be seen in the values that the function of
+estimator shows, and in the generation of plane wave: in case of the known movements, so without the interferences, the estimator is characterized by a number of signals equal to 2 and in case of interferences the number of signals is 4, while in case of generation of plane wave, in the former case there are only the targets, while in the latter there are the interferences too.
+
+The effects of these differences are that in the former case, the estimator gives an estimation that is quite precise and got an error given by the level of accuracy of the scanning step, in both case of elevation and azimuth angles, that can be in the order of half a degree (like in our case) or in fractions of degree, according to the values in the function; in the latter case, there are 2 sub-cases, given by the distances from interferences:
+\begin{itemize}
+    \item  if the position of the targets is far from the interferences, the estimation can be effectively accurate, with little error due to the presence of interferences;
+    \item  if the targets are near to the interferences, the estimation could be very incorrect, and dominated by the less interferred target.
+\end{itemize}
+
+The effect of such estimation can be seen in the beamforming: in the former case can be almost superimposable with respect to the case in which the angles are the real ones, with inaccuracies connected to the precision of step angles, while in the latter could be very far than the real one: all these things can be seen in the polar plot representing the beam of the beamforming
+\end{document}
