@@ -14,7 +14,7 @@
 \fancyhead[R]{\textsc{\nouppercase{\leftmark}}}
 \cfoot{\thepage}
 }
-\title{Wireless Communications project: comparison of different beamforming techniques in a mobile telecommunication system}
+\title{Wireless Communications project: comparison of different beamforming techniques in a mobile communication system}
 \author{Giuseppe Leone, 10518770 \\ Andrea Micucci, \\ Alessandro Petocchi, 10661410}
 \setcounter{tocdepth}{2}
 
@@ -38,12 +38,12 @@ The BS employs a 4x4 Uniform Rectangular Array (URA) of antennas. Each antenna i
 	\item Cyclic prefix length = FFTLength/2
 	\item Modulation transported: 8-QAM
 \end{itemize}
-The OFDM parameters are located in the OFDMSignal.m function and can be freely modified: the modulation order is otherwise specified in the main scripts.
+The OFDM parameters are located in the \texttt{OFDMSignal.m} function and can be freely modified: the modulation order is otherwise specified in the main scripts.
 
 \section{Channel models}
 This project employs two channel models:
 \begin{itemize}
-	\item \textbf{Line of Sight (LoS):} this model is used for the DoA beamforming and comparisons with LMS. Attenuation follows the free-space model (i.e = $ \displaystyle L= \left( \frac{4\pi d}{\lambda} \right)^2$). The channel is additionally characterized by the presence of AWGN.
+	\item \textbf{Line of Sight (LoS):} this model is used for the DoA beamforming and comparisons with LMS. Attenuation follows the free-space model, i.e. $ \displaystyle L= \left( \frac{4\pi d}{\lambda} \right)^2$. The channel is additionally characterized by the presence of AWGN.
 	\item \textbf{QuaDriGa Channel Model:} it is a 3GPP compliant channel model used for characterizing systems affected by multipath fading. In this project it is used for the LMS beamforming algorithm (no DoA is available).The channel is generated as follows:
 	\begin{enumerate}
 		\item At the start of the iteration, a track for the UEs is defined as stated before.
@@ -54,21 +54,21 @@ This project employs two channel models:
 	\end{enumerate}
 \end{itemize}
 
-For both models, the channel is calculated again at each iteration. \\
+For both models, the channel is calculated again at each iteration.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.8\linewidth]{scenario.pdf}
 	\caption{\label{fig:scenario}A bird's-eye visual representation of the scenario}
 \end{figure}
 \section{LMS beamforming}
-Given the transmitted signal $\mathbf{r}$, the channel matrix $\mathbf{C_{out}}$ and the number of elements in the URA $n$, the LMS algorithm calculates the weight vector $\mathbf{w}$ as follows:
+Given the transmitted signal $\mathbf{r}$, the channel matrix $\mathbf{C_{out}}$ and the received signal $\mathbf{u}$, the LMS algorithm calculates the weight vector $\mathbf{w}$ as follows:
 
 $$ \mathbf{w_{n+1}} = \mathbf{w_{n}}-\frac{1}{2}\mu \mathbf{\widehat{\nabla}_w MSE}(\mathbf{w})|_{\mathbf{w=w_n}} $$
 
 with $$\mathbf{\widehat{\nabla}_w MSE}(\mathbf{w})|_{\mathbf{w=w_n}} = 2\mathbf{u_n}+e_n$$ 
-where $e_n = y_n - w_n$ is the error between the transmitted signal and the received one.
+where $e_n = r_n - u_n$ is the error between the transmitted signal and the received one.
 
-\noindent $\mu$ is the gradient step size and is defined as $\displaystyle \mu = \frac{2}{\mathrm{Tr}(\mathbf{C_{out}})}$ 
+\noindent $\mu$ is the gradient step size and is defined as $\displaystyle \mu = \frac{2}{\mathrm{Tr}(\mathbf{C_{out}})}$ \\
 
 The MATLAB implementation of this algorithm may be found in the \texttt{LMSalgorithm.m} function file. After the weight vector is calculated, the script proceeds to multiply the signal received from the two UEs that we wish to track with it. Then a comparison between the BER calculated with and without beamforming is performed for different values of the SNR.
 
