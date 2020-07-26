@@ -63,16 +63,21 @@ For both models, the channel is calculated again at each iteration.
 \section{LMS beamforming}
 Given the transmitted signal $\mathbf{r}$, the channel matrix $\mathbf{C_{out}}$ and the received signal $\mathbf{u}$, from a mathematical point of view the LMS algorithm calculates the weight vector $\mathbf{w}$ as follows:
 
-$$ \mathbf{w_{n+1}} = \mathbf{w_{n}}-\frac{1}{2}\mu \mathbf{\widehat{\nabla}_w MSE}(\mathbf{w})|_{\mathbf{w=w_n}} $$
+\begin{equation} \label{lms}
+	\mathbf{w_{n+1}} = \mathbf{w_{n}}-\frac{1}{2}\mu \mathbf{\widehat{\nabla}_w MSE}(\mathbf{w})|_{\mathbf{w=w_n}}
+\end{equation}
 
-with $$\mathbf{\widehat{\nabla}_w MSE}(\mathbf{w})|_{\mathbf{w=w_n}} = 2\mathbf{u_n}e_n$$ 
-where $e_n = r_n - u_n$ is the error between the transmitted signal and the received one.
+with 
+\begin{equation}
+	\mathbf{\widehat{\nabla}_w MSE}(\mathbf{w})|_{\mathbf{w=w_n}} = 2\mathbf{u_n}e_n
+\end{equation}
+where $e_n = r_n - u_n$ is the error between the transmitted signal sample and the received one.
 
 \noindent $\mu$ is the gradient step size and is defined as $\displaystyle \mu = \frac{2}{\mathrm{Tr}(\mathbf{C_{out}})}$ \\
 
 The MATLAB implementation of this algorithm may be found in the \texttt{LMSalgorithm.m} function file. Given a sample of the transmitted signal, at each iteration the error between the transmitted sample and the received sample is calculated, where the received sample is given by a weighted sum of the samples received from each antenna in the URA. The weights are the ones that were calculated in the previous iteration. 
 
-After evaluating the error, the weights are updated according to the formula described above. This operation is performed for all of the samples contained in the received signal vector.
+After evaluating the error, the weights are updated according to equation \eqref{lms}. This operation is performed for all of the samples contained in the received signal vector.
 
 The algorithm is employed for beamforming in the script \texttt{LMSQuadriga.m} . After the scenario and channel setup, the weight vector is calculated. The script then proceeds to multiply the signals received from the two tracked UEs with it, thus completing the beamforming procedure. Then, a comparison between the BER calculated with and without LMS BF is performed for different values of the SNR.
 
